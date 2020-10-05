@@ -9,7 +9,7 @@ conn.on('connected', () => {
 })
 
 const userSchema = mongoose.Schema({
-    username: {tyep:String, require: true},
+    username: {type:String, require: true},
     password: {type: String, require: true},
     header: {type: String},
 

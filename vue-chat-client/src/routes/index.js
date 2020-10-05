@@ -7,6 +7,7 @@ Vue.use(VueRouter)
 const routes = [
     {
         path: '/',
+        redirect: '/login'
     },{
         path: '/chat',
         component: () => import('../pages/chat.vue')
@@ -21,6 +22,16 @@ const routes = [
         component: () => import('../pages/Register.vue')
     }
 ]
-export default new Router({
+ const router = new Router({
     routes
 })
+// router.beforeEach((to,from,next) => {
+//     if(to.path == '/login' || to.path == '/register') {
+//         if(!document.cookie.userid) {
+//             next()
+//         } else {
+//             next('/chatlist')
+//         }
+//     }
+// })
+export default router

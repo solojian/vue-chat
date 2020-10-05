@@ -5,12 +5,20 @@ const {
     ChatModel
 } = require('../db/model')
 const md5 = require('blueimp-md5')
+const filter = {
+    password: 0,
+    __v: 0
+}
+
 router.post('/register', (req, res) => {
     const {
         username,
         password
     } = req.body
-    console.log('注册连接了')
+    console.log('注册连接了', {
+        username,
+        password
+    })
     UserModel.findOne({
         username
     }, (err, user) => {
@@ -18,28 +26,77 @@ router.post('/register', (req, res) => {
             res.send({
                 code: 1,
                 msg: '此用户已存在'
-            })
+            });
         } else {
             new UserModel({
                 username,
                 password: md5(password)
-            }.save((err, user) => {
-                res.cookie('userid',user_id,{maxAge:1000*60*60*24*7})
+            }).save((err, user) => {
                 const data = {
                     username,
                     _id: user._id
                 }
+                res.cookie('userid', user._id, {
+                    maxAge: 1000 * 60 * 60 * 24 * 7
+                })
+
                 res.send({
                     code: 0,
                     data
                 })
-            }))
-
+            })
         }
     })
 })
 
-router.get('/maglist', (req, res) => {
+router.post('/login', (req, res) => {
+    const {
+        username,
+        password
+    } = req.body
+    UserModel.findOne({
+        username,
+        password: md5(password)
+    }, filter, (err, user) => {
+        if (user) {
+
+            res.cookie('userid', user._id, {
+                maxAge: 1000 * 60 * 60 * 24 * 7
+            })
+            res.send({
+                code: 0,
+                data: user
+            })
+        } else {
+            res.send({
+                code: 1,
+                errMsg: '用户名或密码不正确'
+            })
+        }
+    })
+})
+
+router.get('/user', (req, res) => {
+    const userid = req.cookies.userid
+    console.log('req',req)
+    if (!userid) {
+        res.send({
+            code: 1,
+            errMsg: '请先登录'
+        })
+    } else {
+        UserModel.findOne({
+            _id: userid
+        }, filter, (err, user) => {
+            res.send({
+                code: 0,
+                data: user
+            })
+        })
+    }
+})
+
+router.get('/msglist', (req, res) => {
     const userid = req.cookies.userid
     UserModel.find((err, userDoc) => {
         const users = userDoc.reduce((users, user) => {

@@ -70,4 +70,10 @@ body {
 .box input[type="submit"]:hover {
   background: #2ecc71;
 }
+.box span {
+  text-align: center;
+  bottom: 10px;
+  cursor: pointer;
+
+}
 </style>
