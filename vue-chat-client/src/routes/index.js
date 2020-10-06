@@ -7,19 +7,31 @@ Vue.use(VueRouter)
 const routes = [
     {
         path: '/',
-        redirect: '/login'
-    },{
-        path: '/chat',
-        component: () => import('../pages/chat.vue')
-    },{
-        path: '/chatlist',
-        component: () => import('../pages/chatlist.vue')
+        redirect: '/home'
     },{
         path: '/login',
         component: () => import('../pages/login.vue')
     },{
         path: '/register',
         component: () => import('../pages/Register.vue')
+    },{
+        path: '/home',
+        component: () => import('../pages/Home'),
+        children: [
+            {
+                path: '/home/chats',
+                component: () => import('../pages/Home/chat.vue')
+            },{
+                path: '/home/chatlist',
+                component: () => import('../pages/Home/chatlist.vue')
+            },{
+                path: '/home/userlist',
+                component: () => import('../pages/Home/Userlist.vue')
+            },{
+                path: '',
+                redirect: '/home/chatlist'
+            }
+        ]
     }
 ]
  const router = new Router({

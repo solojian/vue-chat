@@ -1,41 +1,16 @@
 <template>
   <ul id="file0">
-    <li>
-      <img src="../assets/logo.png" />
+    <li v-for="(item,index) in 5" :key="index">
+      <img src="../../assets/logo.png" />
       <h3>这是第一条消息</h3>
       <p>今天心星期三天气晴</p>
     </li>
-    <li>
-      <img src="../assets/logo.png" />
-
-      <h3>这是第二条消息</h3>
-      <p>今天心星期三天气晴</p>
-    </li>
-    <li>
-      <img src="../assets/logo.png" />
-      <h3>这是第三条消息</h3>
-      <p>今天心星期三天气晴</p>
-    </li>
-    <li>
-      <img src="../assets/logo.png" />
-      <h3>这是第四条消息</h3>
-      <p>今天心星期三天气晴</p>
-    </li>
-    <li>
-      <img src="../assets/logo.png" />
-      <h3>这是第五条消息</h3>
-      <p>今天心星期三天气晴</p>
-    </li>
-    <li>
-      <img src="../assets/logo.png" />
-      <h3>这是第六条消息</h3>
-      <p>今天心星期三天气晴</p>
-    </li>
+   
   </ul>
 </template>
 <script>
 import Cookies from "js-cookie";
-import { reqUser } from "../api/index";
+import { reqUser } from "../../api/index";
 export default {
   name: "ChatList",
   data() {
